@@ -19,3 +19,7 @@ URL.createObjectURL(new Blob([code1], { type: 'application/javascript' })); 解�
 importmap 机制 解决 react， react-dom 问题
 
 allotment https://www.npmjs.com/package/allotment 分割视图
+
+@monaco-editor/react 作为编辑器
+
+@typescript/ata 解决代码提示问题
