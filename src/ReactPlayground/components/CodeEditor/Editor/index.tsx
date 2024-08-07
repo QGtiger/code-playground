@@ -1,11 +1,6 @@
 import MonacoEditor, { EditorProps, OnMount } from "@monaco-editor/react";
 import { createATA } from "./ata";
-
-export interface EditorFile {
-  name: string;
-  value: string;
-  language: string;
-}
+import { EditorFile } from "../../../PlaygroundContext";
 
 export default function Editor({
   file,
@@ -40,6 +35,8 @@ export default function Editor({
 
     ata(editor.getValue());
   };
+
+  console.log("==========file change ===========", file);
 
   return (
     <MonacoEditor

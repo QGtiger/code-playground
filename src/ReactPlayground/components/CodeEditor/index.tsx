@@ -1,20 +1,23 @@
-import Editor, { EditorFile } from "./Editor";
+import { usePlayGroundContext } from "../../PlaygroundContext";
+import Editor from "./Editor";
 import FileList from "./FileList";
+import { debounce } from "lodash-es";
 
 export default function CodeEditor() {
-  const file: EditorFile = {
-    name: "test.tsx",
-    value: 'import lodash from "lodash";\n\nconst a = <div>guang</div>',
-    language: "typescript",
-  };
+  const { selectedFile, setFiles, files } = usePlayGroundContext();
+
+  const onEditorChange = debounce((value: string) => {
+    selectedFile.value = value!;
+    setFiles({ ...files });
+  }, 500);
 
   return (
     <div className="h-full">
       <FileList />
       <Editor
-        file={file}
-        onChange={(a, b) => {
-          console.log(a, b);
+        file={selectedFile}
+        onChange={(v) => {
+          onEditorChange(v!);
         }}
       />
     </div>
