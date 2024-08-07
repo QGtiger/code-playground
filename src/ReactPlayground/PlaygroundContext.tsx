@@ -8,6 +8,11 @@ export interface EditorFile {
   name: string;
   value: string;
   language: string;
+
+  hidden?: boolean;
+  fixedRight?: boolean;
+  readOnly?: boolean;
+  buildIn?: boolean;
 }
 
 export interface Files {
@@ -18,7 +23,7 @@ export interface PlaygroundContextInfer {
   files: Files;
   selectedFile: EditorFile;
   setSelectedFile: (id: string) => void;
-  addFile: (fileName: string) => void;
+  addFile: () => void;
   removeFile: (id: string) => void;
   setFiles: (files: Files) => void;
 }
@@ -31,21 +36,36 @@ export function usePlayGroundContext() {
   return useContext(PlaygroundContext);
 }
 
+function TemplateCode(CompName: string) {
+  return `export default function ${CompName}() {
+  return '${CompName}'
+}`;
+}
+
 export function PlaygroundProvider(props: PropsWithChildren) {
   const [selectedFileNameID, setSelectedFileID] = useState(App_uuid);
   const [files, setFiles] = useState<Files>(initFiles);
 
-  const addFile = (name: string) => {
+  const addFile = () => {
     const _id = uuidV4();
+    let index = 0;
+    let name = `Comp${index || ""}`;
+    while (Object.values(files).find((it) => it.name === `${name}.tsx`)) {
+      ++index;
+      name = `Comp${index || ""}`;
+    }
+
+    const fileName = `${name}.tsx`;
     files[_id] = {
       id: _id,
-      name,
-      value: "",
-      language: getLanguageByFileName(name),
+      name: fileName,
+      value: TemplateCode(name),
+      language: getLanguageByFileName(fileName),
     };
     setFiles({
       ...files,
     });
+    setSelectedFileID(_id);
   };
 
   const removeFile = (id: string) => {
@@ -53,6 +73,8 @@ export function PlaygroundProvider(props: PropsWithChildren) {
     setFiles({
       ...files,
     });
+
+    setSelectedFileID(App_uuid);
   };
 
   return (

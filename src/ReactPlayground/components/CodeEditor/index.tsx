@@ -19,6 +19,7 @@ export default function CodeEditor() {
         onChange={(v) => {
           onEditorChange(v!);
         }}
+        readOnly={selectedFile.readOnly}
       />
     </div>
   );

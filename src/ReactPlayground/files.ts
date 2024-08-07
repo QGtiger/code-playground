@@ -11,37 +11,35 @@ export const Main_uuid = uuidV4();
 export const AppCss_uuid = uuidV4();
 export const ImportMapJson_uuid = uuidV4();
 
-export const lodash_uuiid = uuidV4();
-
 export const initFiles: Files = {
   [Main_uuid]: {
     id: Main_uuid,
     name: "main.tsx",
     language: getLanguageByFileName("main.tsx"),
     value: Main,
+    readOnly: true,
+    buildIn: true,
   },
   [App_uuid]: {
     id: App_uuid,
     name: "App.tsx",
     language: getLanguageByFileName("App.tsx"),
     value: App,
+    buildIn: true,
   },
   [AppCss_uuid]: {
     id: AppCss_uuid,
     name: "App.css",
     language: getLanguageByFileName("App.css"),
     value: AppCss,
+    buildIn: true,
   },
   [ImportMapJson_uuid]: {
     id: ImportMapJson_uuid,
     name: "import-map.json",
     language: "json",
     value: ImportMapJson,
-  },
-  [lodash_uuiid]: {
-    id: lodash_uuiid,
-    name: "lodash.ts",
-    language: "typescript",
-    value: `import lodash from 'lodash'`,
+    fixedRight: true,
+    buildIn: true,
   },
 };

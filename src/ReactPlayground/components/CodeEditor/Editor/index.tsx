@@ -1,15 +1,24 @@
 import MonacoEditor, { EditorProps, OnMount } from "@monaco-editor/react";
 import { createATA } from "./ata";
 import { EditorFile } from "../../../PlaygroundContext";
+import { useEffect, useRef } from "react";
+
+type MonacoEditorInfer = Parameters<OnMount>[0];
 
 export default function Editor({
   file,
   onChange,
+  readOnly,
 }: {
   file: EditorFile;
   onChange?: EditorProps["onChange"];
+  readOnly?: boolean;
 }) {
+  const editorRef = useRef<MonacoEditorInfer>();
+
   const handleMount: OnMount = (editor, monaco) => {
+    editorRef.current = editor;
+
     const compilerOptions =
       monaco.languages.typescript.javascriptDefaults.getCompilerOptions();
     monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
@@ -35,6 +44,12 @@ export default function Editor({
 
     ata(editor.getValue());
   };
+
+  useEffect(() => {
+    editorRef.current?.updateOptions({
+      readOnly: readOnly || false,
+    });
+  }, [readOnly]);
 
   console.log("==========file change ===========", file);
 
