@@ -4,12 +4,12 @@ import { compile } from "./compiler";
 import Editor from "../CodeEditor/Editor";
 
 export default function Preview() {
-  const { selectedFile } = usePlayGroundContext();
+  const { selectedFile, files } = usePlayGroundContext();
   const [compiledCode, setCompiledCode] = useState("");
 
   useEffect(() => {
-    setCompiledCode(compile(selectedFile.name, selectedFile.value));
-  }, [selectedFile]);
+    setCompiledCode(compile(selectedFile.name, selectedFile.value, files));
+  }, [selectedFile, files]);
 
   return (
     <Editor
