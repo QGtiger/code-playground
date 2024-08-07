@@ -13,5 +13,5 @@ export default defineConfig({
       },
     ],
   },
-  base: "/code-playground/",
+  base: process.env.NODE_ENV === "development" ? "/" : "/code-playground/",
 });
