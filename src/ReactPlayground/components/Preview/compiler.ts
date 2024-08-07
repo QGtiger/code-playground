@@ -44,8 +44,27 @@ export const babelTransform = (
  * @returns
  */
 function getModuleFile(files: Files, modulePath: string) {
-  const fileName = modulePath.split("./").pop() || "";
-  const fileInfo = Object.values(files).find((file) => file.name === fileName);
+  let fileName = modulePath.split("./").pop() || "";
+  const fileList = Object.values(files);
+  if (!fileName.includes(".")) {
+    const realModuleFile = fileList
+      .filter((f) => {
+        return (
+          f.name.endsWith(".ts") ||
+          f.name.endsWith(".tsx") ||
+          f.name.endsWith(".js") ||
+          f.name.endsWith(".jsx")
+        );
+      })
+      .find((it) => {
+        return it.name.split(".").includes(fileName);
+      });
+    if (realModuleFile) {
+      fileName = realModuleFile.name;
+    }
+  }
+
+  const fileInfo = fileList.find((file) => file.name === fileName);
   return fileInfo;
 }
 
