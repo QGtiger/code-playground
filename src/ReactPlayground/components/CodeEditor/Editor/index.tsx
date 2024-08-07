@@ -51,8 +51,6 @@ export default function Editor({
     });
   }, [readOnly]);
 
-  console.log("==========file change ===========", file);
-
   return (
     <MonacoEditor
       height="100%"

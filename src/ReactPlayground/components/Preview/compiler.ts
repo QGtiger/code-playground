@@ -1,6 +1,7 @@
 import { transform } from "@babel/standalone";
 import { EditorFile, Files } from "../../PlaygroundContext";
 import { PluginObj } from "@babel/core";
+import { Main_uuid } from "../../files";
 
 // 默认导入 import React from 'react'
 const beforeTransformCode = (filename: string, code: string) => {
@@ -21,6 +22,7 @@ export const babelTransform = (
   files: Files
 ) => {
   let result = "";
+  // console.log("开始编译:", filename, code, files);
   const _code = beforeTransformCode(filename, code);
   try {
     result = transform(_code, {
@@ -61,7 +63,6 @@ function css2Js(file: EditorFile) {
     stylesheet.setAttribute('id', 'style_${file.name}_${file.id}');
     document.head.appendChild(stylesheet);
 
-    console.log('en?')
     const styles = document.createTextNode(\`${file.value}\`)
     stylesheet.innerHTML = ''
     stylesheet.appendChild(styles)
@@ -89,7 +90,7 @@ function customBabelResolver(files: Files): PluginObj {
           const fileName = fileInfo.name;
           if (fileName.endsWith(".css")) {
             path.node.source.value = css2Js(fileInfo);
-          } else if (fileName.endsWith("json")) {
+          } else if (fileName.endsWith(".json")) {
             path.node.source.value = json2Js(fileInfo);
           } else {
             path.node.source.value = URL.createObjectURL(
@@ -104,6 +105,7 @@ function customBabelResolver(files: Files): PluginObj {
   };
 }
 
-export const compile = (fileName: string, code: string, files: Files) => {
-  return babelTransform(fileName, code, files);
+export const compile = (files: Files) => {
+  const entryFile = files[Main_uuid];
+  return babelTransform(entryFile.name, entryFile.value, files);
 };
