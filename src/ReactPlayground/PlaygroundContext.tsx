@@ -26,6 +26,7 @@ export interface PlaygroundContextInfer {
   addFile: () => void;
   removeFile: (id: string) => void;
   setFiles: (files: Files) => void;
+  updateFile: (id: string, info: Partial<Omit<EditorFile, "id">>) => void;
 }
 
 export const PlaygroundContext = createContext<PlaygroundContextInfer>(
@@ -37,7 +38,7 @@ export function usePlayGroundContext() {
 }
 
 function TemplateCode(CompName: string) {
-  return `export default function ${CompName}() {
+  return `export default (props: any) => {
   return '${CompName}'
 }`;
 }
@@ -86,6 +87,13 @@ export function PlaygroundProvider(props: PropsWithChildren) {
         addFile,
         removeFile,
         setFiles,
+        updateFile(id, info) {
+          files[id] = {
+            ...files[id],
+            ...info,
+          };
+          setFiles({ ...files });
+        },
       }}
     >
       {props.children}

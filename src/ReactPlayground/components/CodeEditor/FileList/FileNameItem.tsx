@@ -1,16 +1,30 @@
 import classNames from "classnames";
 import { EditorFile, usePlayGroundContext } from "../../../PlaygroundContext";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export default function FileNameItem(props: EditorFile) {
-  const { selectedFile, setSelectedFile, removeFile } = usePlayGroundContext();
+  const { selectedFile, setSelectedFile, removeFile, updateFile } =
+    usePlayGroundContext();
   const { id, name, buildIn } = props;
   const [isEdit, setIsEdit] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const onEdit = () => {
     if (!buildIn) {
       setIsEdit(true);
+
+      setTimeout(() => {
+        inputRef.current?.focus();
+        inputRef.current!.value = name;
+      });
     }
+  };
+
+  const onBlur = () => {
+    setIsEdit(false);
+    updateFile(id, {
+      name: inputRef.current?.value,
+    });
   };
 
   return (
@@ -22,7 +36,11 @@ export default function FileNameItem(props: EditorFile) {
       onDoubleClick={onEdit}
     >
       {isEdit ? (
-        <input />
+        <input
+          className=" border-none w-[120px] outline-none"
+          ref={inputRef}
+          onBlur={onBlur}
+        />
       ) : (
         <>
           <span
@@ -37,7 +55,9 @@ export default function FileNameItem(props: EditorFile) {
             <span
               className=" text-gray-400 px-1 cursor-pointer"
               onClick={() => {
-                removeFile(id);
+                if (confirm("确认删除?")) {
+                  removeFile(id);
+                }
               }}
             >
               ×

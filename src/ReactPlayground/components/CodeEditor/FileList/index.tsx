@@ -13,7 +13,7 @@ export default function FileList() {
     <div className="flex items-center gap-1 whitespace-nowrap overflow-y-hidden overflow-x-auto scroll-bar-hidden">
       <div className="flex">
         {keys.map((k) => {
-          return <FileNameItem {...files[k]} />;
+          return <FileNameItem key={k} {...files[k]} />;
         })}
       </div>
       <div
