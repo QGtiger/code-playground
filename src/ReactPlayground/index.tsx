@@ -9,8 +9,8 @@ import { PlaygroundProvider } from "./PlaygroundContext";
 export default function ReactPlayground() {
   return (
     <div className="h-[100vh] flex flex-col">
-      <Header />
       <PlaygroundProvider>
+        <Header />
         <Allotment defaultSizes={[100]}>
           <Allotment.Pane minSize={500}>
             <CodeEditor />

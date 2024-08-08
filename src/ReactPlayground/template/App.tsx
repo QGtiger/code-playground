@@ -1,5 +1,5 @@
 import { useState } from "react";
-import TailWindComp from "./TailWindComp.tsx";
+import TailWindComp from "./TailWindComp";
 
 function App() {
   const [count, setCount] = useState(0);

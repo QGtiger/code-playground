@@ -1,5 +1,8 @@
 import { strFromU8, strToU8, unzlibSync, zlibSync } from "fflate";
 import { Files } from "./PlaygroundContext";
+import JSZip from "jszip";
+import { saveAs } from "file-saver";
+import { v4 as uuidV4 } from "uuid";
 
 export function getLanguageByFileName(name: string) {
   const suffix = name.split(".").pop() || "";
@@ -30,6 +33,10 @@ export function uncompress(base64: string) {
   return strFromU8(unzipped);
 }
 
+/**
+ * 从链接中获取 file信息
+ * @returns
+ */
 export function getFilesFormUrlHash() {
   let files: Files | undefined;
   try {
@@ -38,4 +45,15 @@ export function getFilesFormUrlHash() {
     console.error(e);
   }
   return files;
+}
+
+export async function downloadFiles(files: Files) {
+  const zip = new JSZip();
+
+  Object.values(files).forEach((file) => {
+    zip.file(file.name, file.value);
+  });
+
+  const blob = await zip.generateAsync({ type: "blob" });
+  saveAs(blob, `code_${uuidV4()}.zip`);
 }
