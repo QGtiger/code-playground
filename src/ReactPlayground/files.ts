@@ -1,15 +1,14 @@
 import { Files } from "./PlaygroundContext";
-import { v4 as uuidV4 } from "uuid";
 import { getLanguageByFileName } from "./utils";
 import App from "./template/App.tsx?raw";
 import Main from "./template/main.tsx?raw";
 import ImportMapJson from "./template/import-map.json?raw";
 import TailWindCompRaw from "./template/TailWindComp?raw";
 
-export const App_uuid = uuidV4();
-export const Main_uuid = uuidV4();
-export const ImportMapJson_uuid = uuidV4();
-export const TailWindComp_uuid = uuidV4();
+export const App_uuid = "App_uuid";
+export const Main_uuid = "Main_uuid";
+export const ImportMapJson_uuid = "ImportMapJson_uuid";
+export const TailWindComp_uuid = "TailWindComp_uuid";
 
 export const initFiles: Files = {
   [Main_uuid]: {

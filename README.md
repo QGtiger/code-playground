@@ -23,3 +23,11 @@ allotment https://www.npmjs.com/package/allotment 分割视图
 @monaco-editor/react 作为编辑器
 
 @typescript/ata 解决代码提示问题
+
+错误提示 => window.parent.postMessage
+
+tailwindcss 支持 => iframe 引入 tailwindcss 在线 cdn
+
+## 分享
+
+files 直接 复制到链接上，但是是明文的 而且，可能户提爱唱，这边就使用 [fflate](https://www.npmjs.com/package/fflate) 进行加密压缩

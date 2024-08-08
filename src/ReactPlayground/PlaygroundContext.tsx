@@ -1,5 +1,11 @@
-import { createContext, PropsWithChildren, useContext, useState } from "react";
-import { getLanguageByFileName } from "./utils";
+import {
+  createContext,
+  PropsWithChildren,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { compress, getFilesFormUrlHash, getLanguageByFileName } from "./utils";
 import { v4 as uuidV4 } from "uuid";
 import { App_uuid, initFiles } from "./files";
 
@@ -45,7 +51,8 @@ function TemplateCode(CompName: string) {
 
 export function PlaygroundProvider(props: PropsWithChildren) {
   const [selectedFileNameID, setSelectedFileID] = useState(App_uuid);
-  const [files, setFiles] = useState<Files>(initFiles);
+  console.log(getFilesFormUrlHash());
+  const [files, setFiles] = useState<Files>(getFilesFormUrlHash() || initFiles);
 
   const addFile = () => {
     const _id = uuidV4();
@@ -77,6 +84,11 @@ export function PlaygroundProvider(props: PropsWithChildren) {
 
     setSelectedFileID(App_uuid);
   };
+
+  useEffect(() => {
+    const hash = compress(JSON.stringify(files));
+    window.location.hash = hash;
+  }, [files]);
 
   return (
     <PlaygroundContext.Provider
