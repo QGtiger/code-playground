@@ -25,6 +25,7 @@ export default function Editor({
       ...compilerOptions,
       jsx: monaco.languages.typescript.JsxEmit.Preserve,
       esModuleInterop: true, // 默认加上 default
+      moduleResolution: "nodenext",
     });
 
     editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyJ, () => {

@@ -3,13 +3,13 @@ import { v4 as uuidV4 } from "uuid";
 import { getLanguageByFileName } from "./utils";
 import App from "./template/App.tsx?raw";
 import Main from "./template/main.tsx?raw";
-import AppCss from "./template/App.css?raw";
 import ImportMapJson from "./template/import-map.json?raw";
+import TailWindCompRaw from "./template/TailWindComp?raw";
 
 export const App_uuid = uuidV4();
 export const Main_uuid = uuidV4();
-export const AppCss_uuid = uuidV4();
 export const ImportMapJson_uuid = uuidV4();
+export const TailWindComp_uuid = uuidV4();
 
 export const initFiles: Files = {
   [Main_uuid]: {
@@ -27,12 +27,11 @@ export const initFiles: Files = {
     value: App,
     buildIn: true,
   },
-  [AppCss_uuid]: {
-    id: AppCss_uuid,
-    name: "App.css",
-    language: getLanguageByFileName("App.css"),
-    value: AppCss,
-    buildIn: true,
+  [TailWindComp_uuid]: {
+    id: TailWindComp_uuid,
+    name: "TailWindComp.tsx",
+    value: TailWindCompRaw,
+    language: getLanguageByFileName("TailWindComp.tsx"),
   },
   [ImportMapJson_uuid]: {
     id: ImportMapJson_uuid,
