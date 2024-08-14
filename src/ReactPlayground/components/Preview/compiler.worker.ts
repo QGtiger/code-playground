@@ -128,3 +128,17 @@ export const compile = (files: Files) => {
   const entryFile = files[Main_uuid];
   return babelTransform(entryFile.name, entryFile.value, files);
 };
+
+self.addEventListener("message", ({ data }) => {
+  try {
+    self.postMessage({
+      type: "COMPILED_CODE",
+      data: compile(data),
+    });
+  } catch (e) {
+    self.postMessage({
+      type: "ERROR",
+      error: e,
+    });
+  }
+});

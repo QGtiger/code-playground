@@ -30,4 +30,8 @@ tailwindcss 支持 => iframe 引入 tailwindcss 在线 cdn
 
 ## 分享
 
-files 直接 复制到链接上，但是是明文的 而且，可能户提爱唱，这边就使用 [fflate](https://www.npmjs.com/package/fflate) 进行加密压缩
+files 直接 复制到链接上，但是是明文的，这边就使用 [fflate](https://www.npmjs.com/package/fflate) 进行加密压缩
+
+## web worker 性能优化
+
+compiler 编译放到 worker 里面

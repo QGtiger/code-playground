@@ -1,10 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { usePlayGroundContext } from "../../PlaygroundContext";
-import { compile } from "./compiler";
 import iframRaw from "./iframe.html?raw";
 import { ImportMapJson_uuid } from "../../files";
 import MessageError from "./components/MessageError";
-import { useBoolean } from "ahooks";
+import { useBoolean, useMount } from "ahooks";
+import CompilerWorker from "./compiler.worker?worker";
 
 import "./index.css";
 
@@ -14,8 +14,24 @@ export default function Preview() {
   const [messgae, setMessage] = useState("");
   const [showMessage, showMessageAction] = useBoolean(false);
 
+  const compilerWorkerRef = useRef<Worker>();
+  useMount(() => {
+    if (!compilerWorkerRef.current) {
+      const _compilerWorker = (compilerWorkerRef.current =
+        new CompilerWorker());
+      _compilerWorker.addEventListener("message", ({ data }) => {
+        console.log("compiler worker:", data);
+        if (data.type === "COMPILED_CODE") {
+          setCompiledCode(data.data);
+        } else {
+          console.log("error", data);
+        }
+      });
+    }
+  });
+
   useEffect(() => {
-    setCompiledCode(compile(files));
+    compilerWorkerRef.current?.postMessage(files);
   }, [files]);
 
   useEffect(() => {
