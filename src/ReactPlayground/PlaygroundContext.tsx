@@ -5,7 +5,12 @@ import {
   useEffect,
   useState,
 } from "react";
-import { compress, getFilesFormUrlHash, getLanguageByFileName } from "./utils";
+import {
+  compress,
+  getFilesFormUrlHash,
+  getLanguageByFileName,
+  handleFile,
+} from "./utils";
 import { v4 as uuidV4 } from "uuid";
 import { App_uuid, initFiles } from "./files";
 
@@ -100,10 +105,10 @@ export function PlaygroundProvider(props: PropsWithChildren) {
         removeFile,
         setFiles,
         updateFile(id, info) {
-          files[id] = {
+          files[id] = handleFile({
             ...files[id],
             ...info,
-          };
+          });
           setFiles({ ...files });
         },
       }}

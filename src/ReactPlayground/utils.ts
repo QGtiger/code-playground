@@ -1,5 +1,5 @@
 import { strFromU8, strToU8, unzlibSync, zlibSync } from "fflate";
-import { Files } from "./PlaygroundContext";
+import { EditorFile, Files } from "./PlaygroundContext";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import { v4 as uuidV4 } from "uuid";
@@ -11,6 +11,11 @@ export function getLanguageByFileName(name: string) {
   if (["json"].includes(suffix)) return "json";
   if (["css"].includes(suffix)) return "css";
   return "javascript";
+}
+
+export function handleFile(file: EditorFile) {
+  file.language = getLanguageByFileName(file.name);
+  return file;
 }
 
 /**
